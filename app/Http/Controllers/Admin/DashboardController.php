@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\SessionSetting;
+use App\Message;
 
 
 class DashboardController extends Controller
@@ -28,9 +29,15 @@ class DashboardController extends Controller
         // dd(session());
         $redirectTo = \Request::path();
         $sessions = SessionSetting::find(1);
-        if($redirectTo === "dashboard") {            
+        if($redirectTo === "dashboard") {     
+            $messages_awaiting = Message::where([
+                'AWAITING' => 1
+            ])->orderby('M_CODE', 'DESC')->get();
+
+            
             return view('admin.'.$redirectTo, [
-                'sessions' => $sessions
+                'sessions' => $sessions,
+                'messages_awaiting' => $messages_awaiting
             ]);
         } else {
             return view('admin.'.$redirectTo, [

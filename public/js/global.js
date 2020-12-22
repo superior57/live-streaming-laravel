@@ -6,6 +6,10 @@ $(document).on('change', '#theme_color', (event) => {
     
 })
 
+$(document).on('click', '.approve', (event) => {
+    let M_ID = event;
+    console.log(M_ID);
+});
 
 function getSessions(callback) {
     let url = base_url + "get_session";

@@ -169,6 +169,12 @@
         text-align: center;
         margin-bottom: 1rem;
     }
+
+    #player {
+        height: 200px; 
+        width: 100%;
+        margin-bottom: 1rem;
+    }
 }
 
 @media screen and (max-width: 579px) {
@@ -179,13 +185,7 @@
     .info {
         margin-top: 15px;
     }
-}
-
-@media (max-width: 450px) {
-    #player {
-        height: 200px; 
-        width: 100%;
-    }
+    
 }
 </style>
 @endpush
