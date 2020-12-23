@@ -78,7 +78,7 @@ class DashboardController extends Controller
         if($per_page == 0 && $page_num == 0) {
             return Message::where([
                 'approved' => 1
-            ])->with(['user', 'answerUser'])->orderby('M_CODE', 'DESC')->get();
+            ])->with(['user', 'answerUser'])->orderby('M_CODE', 'asc')->get();
         }
         return Message::where([
             'approved' => 1
@@ -145,6 +145,7 @@ class DashboardController extends Controller
     public function messageAnswer(Request $request, $message_id) {        
         $message = Message::find($message_id);
         $message->ANSWER = $request->all()['answer'];
+        $message->ANSWER_U_ID = auth()->user()->id;
         $message->save();        
         return response()->json([
             'message' => "Saved an answer successfully.",

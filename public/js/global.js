@@ -159,7 +159,7 @@ function messages_approved(per_page, page_num) {
         let el_tbody = data.map((d) => {
             let user = d.user;
             table.append(`
-                <tr id="tr_awaitingMsg_${d.M_CODE}" role="row" class="odd">
+                <tr id="tr_approvedMsg_${d.M_CODE}" role="row" class="odd">
                     <td>
                         <font style="vertical-align: inherit;">
                             <font style="vertical-align: inherit;">${d.MESSAGE}</font>
@@ -202,7 +202,7 @@ function messages_disapproved(per_page, page_num) {
         let el_tbody = data.map((d) => {
             let user = d.user;
             table.append(`
-                <tr id="tr_awaitingMsg_${d.M_CODE}" role="row" class="odd">
+                <tr id="tr_disapprovedMsg_${d.M_CODE}" role="row" class="odd">
                     <td>
                         <font style="vertical-align: inherit;">
                             <font style="vertical-align: inherit;">${d.MESSAGE}</font>
@@ -370,7 +370,8 @@ function messageToApprove(message_id) {
         },
         success: (response) => {
             console.log(response);
-            // $(`#tr_awaitingMsg_${message_id}`).hide();
+            $(`#tr_awaitingMsg_${message_id}`).hide();
+            $(`#tr_disapprovedMsg_${message_id}`).hide();
         },
         error: (error) => console.log(error.status, error.statusText)
     });

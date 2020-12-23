@@ -274,7 +274,7 @@
     }
     function sendMessage(message) {
         let url = base_url + "send_message";
-        let wrap_message = $('#wrap_message');
+        let wrap_message = document.getElementById('wrap_message');
         setLocker(1);
 
         $.post({
@@ -287,19 +287,19 @@
             success: (response) => {
                 console.log(response);
                 $("#message").val("");
-                wrap_message.append(
+                $(wrap_message).append(
                     '<div class="msg"><div class="alert alert-success"><p>Mensagem enviada com sucesso!</p></div></div>'
                 );
-                wrap_message.scrollTop(wrap_message.height());
+                $(wrap_message).scrollTop(wrap_message.scrollHeight);
                 setLocker(0);
             },
             error: (error) => {
                 console.log(error.status, error.statusText);
                 $("#message").val("");
-                wrap_message.append(
+                $(wrap_message).append(
                     '<div class="msg"><div class="alert alert-danger"><p>Erro inesperado, por favor contate o suporte!</p></div></div>'
                 );
-                wrap_message.scrollTop(wrap_message.height());
+                $(wrap_message).scrollTop(wrap_message.scrollHeight);
                 setLocker(0);
             }
         });
