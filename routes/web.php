@@ -44,8 +44,16 @@ Route::middleware(['auth.admin'])->group(function() {
 });
 
 // session...
-Route::post('update_session', 'Admin\DashboardController@updateSession');
-Route::get('get_session', 'Admin\DashboardController@getSession');
+Route::post('/update_session', 'Admin\DashboardController@updateSession');
+Route::get('/get_session', 'Admin\DashboardController@getSession');
 
 // message...
-Route::post('send_message', 'HomeController@sendMessage');
+Route::post('/send_message', 'HomeController@sendMessage');
+Route::post('/message_to_approve/{message_id}', 'Admin\DashboardController@messageToApprove');
+Route::post('/message_to_disapprove/{message_id}', 'Admin\DashboardController@messageToDisapprove');
+Route::post('/message_to_disapprove/{message_id}', 'Admin\DashboardController@messageToDisapprove');
+Route::post('/message_answer/{message_id}', 'Admin\DashboardController@messageAnswer');
+Route::get('/get_message/{status}/{per_page}/{page_num}', 'Admin\DashboardController@getMessage');
+Route::get('/get_users/{per_page}/{page_num}', 'Admin\DashboardController@getUsers');
+Route::get('get_message_detail/{message_id}', 'Admin\DashboardController@getMessageDetail');
+

@@ -71,19 +71,36 @@
 @include('admin.dashboard-sections.approved')
 @include('admin.dashboard-sections.disapproved')
 
-
+<div class="modal fade in" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"
+    style="display: none; padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <button type="button" class="close" data-dismiss="modal" onclick="closeModal()"><span aria-hidden="true">×</span><span
+                        class="sr-only">Fechar</span></button>
+                <h4 class="modal-title" id="modalLabel">Respoder Mensagem</h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <input type="hidden" id="message_id" value="">
+                <div class="form-group "><label for="modalResposta"> Respota</label><textarea class="form-control"
+                        id="txt_answer"></textarea></div>
+            </div>
+            <div class="modal-footer" id="modalFooter"><button type="button" class="btn btn-default"
+                    data-dismiss="modal" id="fechar" onclick="closeModal()">Cancelar</button><button type="button"
+                    class="btn btn-primary salvarResposta" onclick="submitAnswer()">Salvar</button></div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('script')
 <script>
-    $(document).on('click', '#btn_update_main_message', () => {
-        let main_message = $('#text_main_message').val();
-        let data = {
-            MAIN_MESSAGE: main_message
-        };
-        updateSession(data);
-    });
-
-    
+$(document).on('click', '#btn_update_main_message', () => {
+    let main_message = $('#text_main_message').val();
+    let data = {
+        MAIN_MESSAGE: main_message
+    };
+    updateSession(data);
+});
 </script>
 @endpush

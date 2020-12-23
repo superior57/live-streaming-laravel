@@ -5560,3 +5560,7 @@ hr {
 .control-panel {
   padding: .5rem;
 }
+
+.pagination * {
+  cursor: pointer;
+}

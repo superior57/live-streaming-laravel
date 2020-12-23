@@ -100,3 +100,12 @@ a {
     max-width: 100%;
     width: 100% !important;
 }
+
+.msg {
+    text-align: left;
+}
+
+#wrap_message {
+    height: 250px;
+    overflow-y: auto;
+}

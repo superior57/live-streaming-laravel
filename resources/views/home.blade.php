@@ -184,7 +184,7 @@
     .info {
         margin-top: 15px;
     }
-    
+
 }
 </style>
 @endpush
@@ -217,7 +217,7 @@
                             <div id="topo">
                                 <h4>Mensagens!</h4>
                             </div>
-                            <div id="msgs">
+                            <div id="wrap_message">
 
                             </div>
                             <div id="sendMsg">
@@ -245,62 +245,68 @@
 
 @push('script')
 <script>
-
-responsivePlayer();
-var msgLocker = 0;
-
-function setLocker(value){
-    msgLocker = value;
-}
-
-function getLocker(){
-    return msgLocker;
-}
-
-$(window).on('resize', () => {
     responsivePlayer();
-});
+    var msgLocker = 0;
 
-$(document).on('click', '#btn_send_message', () => {
-    let message = $('#message').val();
-    if(message) {
-        sendMessage(message);
+    function setLocker(value) {
+        msgLocker = value;
     }
-    
-});
 
-function responsivePlayer() {
-    let curWidth = $('#player').width();
-    $('#player').height(curWidth * 9 / 16);
-}
+    function getLocker() {
+        return msgLocker;
+    }
 
+    $(window).on('resize', () => {
+        responsivePlayer();
+    });
 
-
-function sendMessage(message) {
-    let url = base_url + "send_message";
-    setLocker(1);
-
-    $.post({
-        url: url,
-        dataType: "JSON",
-        data: {
-            _token: csrf_token,
-            message: message
-        },
-        success: (response) => {
-            console.log(response);
-            $("#message").val("");
-            $("#msgs").append('<div class="msg"><div class="alert alert-success"><p>Mensagem enviada com sucesso!</p></div></div>');
-            var objDiv = document.getElementById("msgs");
-                objDiv.scrollTop = objDiv.scrollHeight;
-            setLocker(0);
-        },
-        error: (error) => {
-            console.log(error.status, error.statusText);
+    $(document).on('click', '#btn_send_message', () => {
+        let message = $('#message').val();
+        if (message) {
+            sendMessage(message);
         }
-    });   
-    
-}
 
+    });
+
+    function responsivePlayer() {
+        let curWidth = $('#player').width();
+        $('#player').height(curWidth * 9 / 16);
+    }
+    function sendMessage(message) {
+        let url = base_url + "send_message";
+        let wrap_message = $('#wrap_message');
+        setLocker(1);
+
+        $.post({
+            url: url,
+            dataType: "JSON",
+            data: {
+                _token: csrf_token,
+                message: message
+            },
+            success: (response) => {
+                console.log(response);
+                $("#message").val("");
+                wrap_message.append(
+                    '<div class="msg"><div class="alert alert-success"><p>Mensagem enviada com sucesso!</p></div></div>'
+                );
+                wrap_message.scrollTop(wrap_message.height());
+                setLocker(0);
+            },
+            error: (error) => {
+                console.log(error.status, error.statusText);
+                $("#message").val("");
+                wrap_message.append(
+                    '<div class="msg"><div class="alert alert-danger"><p>Erro inesperado, por favor contate o suporte!</p></div></div>'
+                );
+                wrap_message.scrollTop(wrap_message.height());
+                setLocker(0);
+            }
+        });
+    }
+
+    $(document).ready(() => {
+        displayApprovedMessage();
+    })
 </script>
 @endpush

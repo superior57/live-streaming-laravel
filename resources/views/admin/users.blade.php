@@ -6,9 +6,6 @@
         Usuários
     </h1>
     <br>
-    <!--<a href="users.create.php" class="btn btn-primary" >Adicionar Úsuario</a>
-				<a href="scripts/exportUsers.php" class="btn btn-primary exportar" >Exportar Úsuarios </a>
-				<a class="btn btn-primary importar" >Importar Úsuarios </a>-->
 </section>
 <section class="content">
     <div class="box box-primary box-import" style="display: none;">
@@ -107,9 +104,10 @@
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="dataTables_length" id="DataTables_Table_0_length"><label><select
-                                    name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
+                        <div class="dataTables_length" id="table_user_length"><label><select
+                                    name="table_user_length" aria-controls="DataTables_Table_0"
                                     class="form-control input-sm">
+                                    <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -143,99 +141,21 @@
                                         style="width: 282px;">Cadastrado em:</th>
                                 </tr>
                             </thead>
-                            <tbody>
-
-                                <tr id="4yoOFnkvarKAKJGXntiV" role="row" class="odd">
-                                    <td class="sorting_1"></td>
-                                    <td>figoimoveis1@gmail.com</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 8:01:27 PM</td>
-                                </tr>
-                                <tr id="7Ny9sb65LNavgLm6HFEC" role="row" class="even">
-                                    <td class="sorting_1"></td>
-                                    <td>keilamariano@creci.org.br</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 9:08:13 PM</td>
-                                </tr>
-                                <tr id="8T8CmNrWzg3Q4mFy2ZMx" role="row" class="odd">
-                                    <td class="sorting_1"></td>
-                                    <td>nanci.imoveis@yahoo.com</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 10:11:35 PM</td>
-                                </tr>
-                                <tr id="Ep6Slk1soTTxv6grJ7y0" role="row" class="even">
-                                    <td class="sorting_1"></td>
-                                    <td>rcd.duran1@gmail.com</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 10:39:41 PM</td>
-                                </tr>
-                                <tr id="KfcoPgpleHqSLFtCy2ur" role="row" class="odd">
-                                    <td class="sorting_1"></td>
-                                    <td>adilsonapleal@gmail.com</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 9:48:48 PM</td>
-                                </tr>
-                                <tr id="LUbb1UP20scsKIFqxp30" role="row" class="even">
-                                    <td class="sorting_1"></td>
-                                    <td>adilsonapleal@gmail.com</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 9:56:55 PM</td>
-                                </tr>
-                                <tr id="MS8LnEHLKSvGCZev9Lw5" role="row" class="odd">
-                                    <td class="sorting_1"></td>
-                                    <td>redacao@tvjota.com.br</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 7:04:24 PM</td>
-                                </tr>
-                                <tr id="Oqqxy2Hc1kyYk32yUI0K" role="row" class="even">
-                                    <td class="sorting_1"></td>
-                                    <td>sue.ellen@corretorunido.com.br</td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 9:35:20 PM</td>
-                                </tr>
-                                <tr id="Wcg39ae8NTsIwVfm1AEQ" role="row" class="odd">
-                                    <td class="sorting_1"></td>
-                                    <td>silva@terra.com</td>
-                                    <td>0s</td>
-                                    <td>12/11/2020, 3:18:36 AM</td>
-                                </tr>
-                                <tr id="eRu8zU5LdKOJCli7rZ09" role="row" class="even">
-                                    <td class="sorting_1"></td>
-                                    <td></td>
-                                    <td>0s</td>
-                                    <td>12/8/2020, 8:15:05 PM</td>
-                                </tr>
+                            <tbody id="tbody_users">
+                                
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
-                            Mostrando de 1 até 10 de 526 registros</div>
+                        <div class="dataTables_info" id="table_user_info" role="status" aria-live="polite">
+                            </div>
                     </div>
                     <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                        <div class="dataTables_paginate paging_simple_numbers" id="table_user_paginate">
                             <ul class="pagination">
-                                <li class="paginate_button previous disabled" id="DataTables_Table_0_previous"><a
-                                        href="#" aria-controls="DataTables_Table_0" data-dt-idx="0"
-                                        tabindex="0">Anterior</a></li>
-                                <li class="paginate_button active"><a href="#" aria-controls="DataTables_Table_0"
-                                        data-dt-idx="1" tabindex="0">1</a></li>
-                                <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0"
-                                        data-dt-idx="2" tabindex="0">2</a></li>
-                                <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0"
-                                        data-dt-idx="3" tabindex="0">3</a></li>
-                                <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0"
-                                        data-dt-idx="4" tabindex="0">4</a></li>
-                                <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0"
-                                        data-dt-idx="5" tabindex="0">5</a></li>
-                                <li class="paginate_button disabled" id="DataTables_Table_0_ellipsis"><a href="#"
-                                        aria-controls="DataTables_Table_0" data-dt-idx="6" tabindex="0">…</a></li>
-                                <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0"
-                                        data-dt-idx="7" tabindex="0">53</a></li>
-                                <li class="paginate_button next" id="DataTables_Table_0_next"><a href="#"
-                                        aria-controls="DataTables_Table_0" data-dt-idx="8" tabindex="0">Próximo</a></li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -246,3 +166,21 @@
     </div>
 </section>
 @endsection
+
+@push('script')
+<script>
+    $(document).ready(() => {
+        if(getGValue('table_user_length')) {
+            $('select[name="table_user_length"]').val(getGValue('table_user_length'));
+            displayUsers(getGValue('table_user_length'), 1);
+        } else {
+            setGValue('table_user_length', 5);
+        }
+    });
+
+    $(document).on('change', 'select[name="table_user_length"]', (event) => {
+        setGValue('table_user_length', event.target.value);
+        displayUsers(getGValue('table_user_length'), 1);
+    });
+</script>
+@endpush
