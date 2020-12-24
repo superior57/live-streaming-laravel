@@ -16,6 +16,7 @@ class AdminAuthenticate
      */
     public function handle($request, Closure $next)
     {
+        session_start();
         if (auth()->check()) {
             if (auth()->user()->UR_CODE == 1) {
                 return $next($request);

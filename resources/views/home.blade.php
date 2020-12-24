@@ -225,7 +225,7 @@
                                 <span id="btn_send_message"><i class="fa fa-send"></i></span>
                             </div>
                         </section>
-                        <section>
+                        <section class="mb-10">
                             <button id="logoff" class="btn btn-primary w-100 full-width" onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                 SAIR
@@ -234,6 +234,11 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+                        </section>
+                        <section>
+                            <a id="btn_goto_offsite" class="btn btn-primary w-100 full-width" href="https://www.google.com" target="_blank">
+                            
+                            </a>
                         </section>
                     </div>
                 </div>
@@ -308,5 +313,10 @@
     $(document).ready(() => {
         displayApprovedMessage();
     })
+
+    // let interval_approved_msg = setInterval(() => {
+    //     // displayApprovedMessage();
+    //     console.log("{!! isset($status_msg) ? $status_msg : 'no' !!}");
+    // }, IntervalTime);
 </script>
 @endpush

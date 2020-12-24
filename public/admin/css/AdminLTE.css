@@ -5564,3 +5564,27 @@ hr {
 .pagination * {
   cursor: pointer;
 }
+
+.mb-4 {
+  margin-bottom: 5px;
+}
+
+.ml-2 {
+  margin-left: 2px;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.item-content {
+  margin-left: 5px;
+}

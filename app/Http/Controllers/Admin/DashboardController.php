@@ -8,7 +8,7 @@ use Auth;
 use App\SessionSetting;
 use App\Message;
 use App\User;
-
+use Illuminate\Support\Facades\View;
 
 class DashboardController extends Controller
 {
@@ -26,7 +26,9 @@ class DashboardController extends Controller
     
   
 
-    public function index() {        
+    public function index() {   
+        
+        // dd(session_id());     
         $redirectTo = \Request::path();
         $sessions = SessionSetting::find(1);
         if($redirectTo === "dashboard") {     
@@ -121,6 +123,7 @@ class DashboardController extends Controller
     }
 
     public function messageToApprove($message_id) {
+        View::share('status_msg', 'updated');     
         $message = Message::find($message_id);
         $message->approved = 1;
         $message->AWAITING = 0;
