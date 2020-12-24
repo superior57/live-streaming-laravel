@@ -113,3 +113,7 @@ a {
 .mb-10 {
     margin-bottom: 10px;
 }
+
+.disabled {
+    cursor: not-allowed !important;
+}

@@ -282,6 +282,7 @@
         let wrap_message = document.getElementById('wrap_message');
         setLocker(1);
         $('#btn_send_message').addClass('disabled');
+        $('#message').addClass('disabled');
 
         $.post({
             url: url,
@@ -299,6 +300,7 @@
                 $(wrap_message).scrollTop(wrap_message.scrollHeight);
                 setLocker(0);
                 $('#btn_send_message').removeClass('disabled');
+                $('#message').removeClass('disabled');
             },
             error: (error) => {
                 console.log(error.status, error.statusText);
