@@ -236,7 +236,7 @@
                             </form>
                         </section>
                         <section>
-                            <a id="btn_goto_offsite" class="btn btn-primary w-100 full-width" href="https://www.google.com" target="_blank">
+                            <a id="btn_goto_offsite" class="btn btn-primary w-100 full-width" href="https://www.google.com" target="_blank" style="display: none;">
 
                             </a>
                         </section>
