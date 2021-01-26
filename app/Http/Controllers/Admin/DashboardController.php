@@ -9,6 +9,7 @@ use App\SessionSetting;
 use App\Message;
 use App\User;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -74,7 +75,8 @@ class DashboardController extends Controller
     {
         $this->destorySessionIfDifferent();
         return Message::where([
-            'AWAITING' => 1
+            'AWAITING' => 1,
+            'is_delete' => 0
         ])->with('user')->orderby('M_CODE', 'DESC')->paginate($per_page, ['*'], 'Awaiting Messages', $page_num);
     }
 
@@ -82,11 +84,13 @@ class DashboardController extends Controller
     {
         if($per_page == 0 && $page_num == 0) {
             return Message::where([
-                'approved' => 1
+                'approved' => 1,
+                'is_delete' => 0
             ])->with(['user', 'answerUser'])->orderby('M_CODE', 'asc')->get();
         }
         return Message::where([
-            'approved' => 1
+            'approved' => 1,
+            'is_delete' => 0
         ])->with('user')->orderby('M_CODE', 'DESC')->paginate($per_page, ['*'], 'Approved Messages', $page_num);
     }
 
@@ -95,7 +99,8 @@ class DashboardController extends Controller
         $this->destorySessionIfDifferent();
         return Message::where([
             'approved' => 0,
-            'AWAITING' => 0
+            'AWAITING' => 0,
+            'is_delete' => 0
         ])->with('user')->orderby('M_CODE', 'DESC')->paginate($per_page, ['*'], 'Disapproved Messages', $page_num);
     }
 
@@ -119,7 +124,8 @@ class DashboardController extends Controller
     {
         $this->destorySessionIfDifferent();
         $user_list = User::where([
-            'UR_CODE' => 2
+            'UR_CODE' => 2,
+            'is_delete' => 0
         ])->orderby('id', 'DESC')->paginate($per_page, ['*'], 'Users', $page_num);
 
         return response()->json([
@@ -181,9 +187,50 @@ class DashboardController extends Controller
 
     public function uploadUserList(Request $req)
     {
-        $file = $req->file('user_list');
-        $file->storeAs('uploads', "user_list.csv", "public");
-        return back()->with("success", "file has been stored successfully");
+        try{
+            $file = $req->file('user_list');
+            $row = 1;
+            $array = [];
+            $header = [
+                'name',
+                'email',
+                'password'
+            ];
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    if($row != 1) {
+                    $num = count($data);
+                    $array = [];
+                    for ($c=0; $c < $num; $c++) {
+                        $array[] =  $data[$c];                     
+                    }
+                        $array2[] =  array_combine($header, $array);                     
+                    }
+                    $row ++;
+                }
+                fclose($handle);
+            }  
+
+            $data = [];
+            foreach($array2 as $key => $value) {
+                $value['password'] = Hash::make($value['password']);
+                $value['UR_CODE'] = 2;
+                $value['is_delete'] = 0;
+                $data[] = $value;
+            }
+            // $users = User::where('UR_CODE', 2)->get();          
+            // foreach($users as $user) {
+            //     $user->is_delete = 1;
+            //     $user->save();
+            // }  
+            User::where('UR_CODE', 2)->delete();
+            Message::query()->update(['is_delete' => 1]);
+            User::insert($data);
+            return back()->with("success", "file has been stored successfully");
+        } catch(Throwable $e) {
+            dd('123');
+            return back()->with('error', $e);
+        }
     }
 
 }

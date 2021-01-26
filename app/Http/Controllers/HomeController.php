@@ -51,6 +51,7 @@ class HomeController extends Controller
         $message = new Message();
         $message->MESSAGE = $data["message"];
         $message->U_ID = auth()->user()->id;
+        $message->user_email = auth()->user()->email;
         $message->approved = 0;
         $message->ANSWER = "";
         $message->save();

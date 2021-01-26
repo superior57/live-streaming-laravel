@@ -71,7 +71,7 @@ class LoginController extends Controller
         //         return redirect('/home');
         //     } else return back()->with('error', "No matches records");
         // } else {
-            if (Auth::attempt($credentials)) {
+            if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'is_delete' => 0])) {
                 // Authentication passed...
                 if (auth()->check()) {
                     if (auth()->user()->UR_CODE == 1) {

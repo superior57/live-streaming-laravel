@@ -145,7 +145,7 @@ function messages_awaiting(per_page, page_num) {
                     </td>
                     <td>
                         <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${user.f_name} ${user.l_name}</font>
+                            <font style="vertical-align: inherit;">${user.name}</font>
                         </font>
                     </td>
                     <td class="sorting_1">
@@ -194,7 +194,7 @@ function messages_approved(per_page, page_num) {
                     </td>
                     <td>
                         <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${user.f_name} ${user.l_name}</font>
+                            <font style="vertical-align: inherit;">${user.name}</font>
                         </font>
                     </td>
                     <td class="sorting_1">
@@ -237,7 +237,7 @@ function messages_disapproved(per_page, page_num) {
                     </td>
                     <td>
                         <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${user.f_name} ${user.l_name}</font>
+                            <font style="vertical-align: inherit;">${user.name}</font>
                         </font>
                     </td>
                     <td class="sorting_1">
@@ -374,7 +374,7 @@ function displayUsers(per_page, page_num) {
         data.map((user) => {           
             table.append(`
                 <tr id="${user.id}" role="row" class="odd">
-                    <td class="sorting_1">${user.f_name} ${user.l_name}</td>
+                    <td class="sorting_1">${user.name}</td>
                     <td>${user.email}</td>
                     <td>0s</td>
                     <td>${user.created_at}</td>
@@ -481,7 +481,7 @@ function displayApprovedMessage() {
             $(wrap_message).append(`
                 <div class="msg" id="${message.M_CODE}">
                     <div class="msgTopo"><span class="msgDisse">
-                            <b> ${user.f_name} ${user.l_name} </b>
+                            <b> ${user.name} </b>
                             said:
                         </span><span class="msgTime">${message.created_at}</span></div>
                     <div class="msgContent">
@@ -492,7 +492,7 @@ function displayApprovedMessage() {
                         message.answer_user ? `
                             <div class="msgAnswer" data-id="cb1V5WKMvXnuBttmlKpW">
                                 <div class="msgTopo"><span class="msgADisse">
-                                        <b>${answer_user.f_name} ${answer_user.l_name}</b> said:</span>
+                                        <b>${answer_user.name}</b> said:</span>
                                     <span class="msgTime">${message.updated_at}</span>
                                 </div>
                                 <div class="msgContent">${message.ANSWER}</div>
