@@ -225,7 +225,7 @@
                                 <span id="btn_send_message"><i class="fa fa-send"></i></span>
                             </div>
                         </section>
-                        <section>
+                        <section class="mb-10">
                             <button id="logoff" class="btn btn-primary w-100 full-width" onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                 SAIR
@@ -234,6 +234,11 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+                        </section>
+                        <section>
+                            <a id="btn_goto_offsite" class="btn btn-primary w-100 full-width" href="https://www.google.com" target="_blank" style="display: none;">
+
+                            </a>
                         </section>
                     </div>
                 </div>
@@ -260,7 +265,7 @@
 
     $(document).on('click', '#btn_send_message', () => {
         let message = $('#message').val();
-        if (message) {
+        if (message && msgLocker == 0) {
             sendMessage(message);
         }
 
@@ -274,6 +279,8 @@
         let url = base_url + "send_message";
         let wrap_message = document.getElementById('wrap_message');
         setLocker(1);
+        $('#btn_send_message').addClass('disabled');
+        $('#message').addClass('disabled');
 
         $.post({
             url: url,
@@ -290,6 +297,8 @@
                 );
                 $(wrap_message).scrollTop(wrap_message.scrollHeight);
                 setLocker(0);
+                $('#btn_send_message').removeClass('disabled');
+                $('#message').removeClass('disabled');
             },
             error: (error) => {
                 console.log(error.status, error.statusText);

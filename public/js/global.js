@@ -4,9 +4,29 @@ $(document).on('change', '#theme_color', (event) => {
     let value = event.target.value;
     updateSession({
         BTN_BACKGROUND_COLOR: value
-    });
-    
-})
+    });    
+});
+
+$(document).on('change', '#txt_button1_name', (event) => {
+    let value = event.target.value;
+    updateSession({
+        BUTTON_1_NAME: value
+    });    
+});
+
+$(document).on('change', '#txt_button1_url', (event) => {
+    let value = event.target.value;
+    updateSession({
+        BUTTON_1_URL: value
+    });    
+});
+
+$(document).on('change', '#chk_button_1', (event) => {
+    let value = event.target.checked;
+    updateSession({
+        BUTTON_1: value ? 1 : 0
+    });    
+});
 
 $(document).on('click', '.approve', (event) => {
     let M_ID = event;
@@ -72,12 +92,19 @@ function getSessions(callback) {
 function displayUpdateSession() {
     getSessions(function(response) {
         let sessions = response;
-        console.log(sessions.MAIN_MESSAGE);
+        // console.log(sessions.MAIN_MESSAGE);
         $('#main_message').text(sessions.MAIN_MESSAGE);
-        console.log(sessions.BTN_BACKGROUND_COLOR);
         $('#logoff').attr('style',`background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`);
         $('#main_message').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`);
-        $('#btnLogin').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`);        
+        $('#btnLogin').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`); 
+        
+        if(sessions.BUTTON_1 == 1) {
+            $('#btn_goto_offsite').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`); 
+            $('#btn_goto_offsite').attr('href', sessions.BUTTON_1_URL); 
+            $('#btn_goto_offsite').text(sessions.BUTTON_1_NAME);             
+        } else {
+            $('#btn_goto_offsite').attr('style', `display: none !important`); 
+        }
     });
 }
 
@@ -443,15 +470,15 @@ function getMessageDetail(message_id, callback) {
 
 function displayApprovedMessage() {
     getMessages('approved', 0, 0, (response) => {
-        console.log(response);
-        let wrap_message = $('#wrap_message');
+        // console.log(response);
+        let wrap_message = document.getElementById('wrap_message');
         let messages = response.messages;
-        wrap_message.empty();
+        $(wrap_message).empty();
         
         messages.map((message) => {
             let user = message.user;
             let answer_user = message.answer_user;
-            wrap_message.append(`
+            $(wrap_message).append(`
                 <div class="msg" id="${message.M_CODE}">
                     <div class="msgTopo"><span class="msgDisse">
                             <b> ${user.f_name} ${user.l_name} </b>
@@ -474,6 +501,7 @@ function displayApprovedMessage() {
                     }
                 </div>
             `)
-        })
+        });
+        $(wrap_message).scrollTop(wrap_message.scrollHeight);
     });
 }
