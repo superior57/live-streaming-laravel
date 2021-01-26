@@ -67,7 +67,7 @@ class LoginController extends Controller
         if($usertype === "client") {
             if($this->verifyCSVUser($credentials) != false) {
                 $user = $this->verifyCSVUser($credentials);
-                Auth::login($user['email'], TRUE);
+                // Auth::login($user['email'], TRUE);
                 return redirect('/home');
             } else return back()->with('error', "No matches records");
         } else {
