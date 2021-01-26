@@ -29,6 +29,7 @@ class DashboardController extends Controller
     public function index() {        
         $redirectTo = \Request::path();
         $sessions = SessionSetting::find(1);
+
         if($redirectTo === "dashboard") {     
             return view('admin.'.$redirectTo, [
                 'sessions' => $sessions
@@ -47,6 +48,7 @@ class DashboardController extends Controller
 
     public function updateSession(Request $request)
     {
+        $this->destorySessionIfDifferent();
         $data = $request->except('_token');
         $return = array(
             'message' => ""
@@ -68,6 +70,7 @@ class DashboardController extends Controller
 
     function getAwaitingMessage($per_page, $page_num)
     {
+        $this->destorySessionIfDifferent();
         return Message::where([
             'AWAITING' => 1
         ])->with('user')->orderby('M_CODE', 'DESC')->paginate($per_page, ['*'], 'Awaiting Messages', $page_num);
@@ -87,6 +90,7 @@ class DashboardController extends Controller
 
     function getDisapprovedMessage($per_page, $page_num)
     {
+        $this->destorySessionIfDifferent();
         return Message::where([
             'approved' => 0,
             'AWAITING' => 0
@@ -111,6 +115,7 @@ class DashboardController extends Controller
 
     public function getUsers(Request $request, $per_page, $page_num)
     {
+        $this->destorySessionIfDifferent();
         $user_list = User::where([
             'UR_CODE' => 2
         ])->orderby('id', 'DESC')->paginate($per_page, ['*'], 'Users', $page_num);
@@ -158,6 +163,24 @@ class DashboardController extends Controller
         return response()->json([
             'message' => $message
         ]);
+    }
+
+    function destorySessionIfDifferent()
+    {
+        $cur_session = \Session::getId();
+        $user = User::find(auth()->user()->id);
+        $last_session = $user->last_session;
+        if($cur_session != $last_session) {
+            auth()->logout();
+            return response('Logout', 509);
+        }
+    }
+
+    public function uploadUserList(Request $req)
+    {
+        $file = $req->file('user_list');
+        $file->storeAs('uploads', "user_list.csv", "public");
+        return back()->with("success", "file has been stored successfully");
     }
 
 }

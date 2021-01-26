@@ -57,3 +57,4 @@ Route::get('/get_message/{status}/{per_page}/{page_num}', 'Admin\DashboardContro
 Route::get('/get_users/{per_page}/{page_num}', 'Admin\DashboardController@getUsers');
 Route::get('get_message_detail/{message_id}', 'Admin\DashboardController@getMessageDetail');
 
+Route::post('userfile_upload', 'Admin\DashboardController@uploadUserList');

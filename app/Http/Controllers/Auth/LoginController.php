@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
 use App\User;
+use App\CSVUser;
 
 class LoginController extends Controller
 {
@@ -40,29 +41,53 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    // // public function login(Request $request)
-    // // {
-    // //     $credentials = $request->only('email', 'password');
+    function verifyCSVUser($credentials)
+    {  
+        $CSVUser = new CSVUser();
+        $data = $CSVUser->getUserList();
+        if(array_key_exists($credentials['email'], $data)) {
+            $user = $data[$credentials['email']];
+            $password = $user['password'];
+            if($password == $credentials['password']) {
+                return $user;
+            } else {
+                return false;
+            }
+        }
+        return false;        
+    }
 
-    // //     if (Auth::attempt($credentials)) {
-    // //         // Authentication passed...
-    // //         if (auth()->check()) {
-    // //             if (auth()->user()->UR_CODE == 1) {
-    // //                 $U_ID = auth()->user()->id;
-    // //                 $user = User::find($U_ID);
-    // //                 $user->last_session = session_id();
-    // //                 $user->save();
-    // //                 return redirect(route('dashboard'));
-    // //             }
-    // //             else if(auth()->user()->UR_CODE == 2) {
-    // //                 return redirect('/home');
-    // //             }
-    // //             else {
-    // //                 return redirect(route('admin_home'));
-    // //             }
-    // //         } else {
-    // //             return redirect(route('admin_home'));
-    // //         }
-    // //     }
-    // }
+    
+
+    public function login(Request $request)
+    {
+        $usertype = $request->input('usertype');
+        $credentials = $request->only('email', 'password');
+        
+        if($usertype === "client") {
+            if($this->verifyCSVUser($credentials) != false) {
+                $user = $this->verifyCSVUser($credentials);
+                Auth::login($user['email'], TRUE);
+                return redirect('/home');
+            } else return back()->with('error', "No matches records");
+        } else {
+            if (Auth::attempt($credentials)) {
+                // Authentication passed...
+                if (auth()->check()) {
+                    if (auth()->user()->UR_CODE == 1) {
+                        $user = User::find(auth()->user()->id);
+                        $user->last_session = \Session::getId();
+                        $user->save();                        
+                        return redirect(route('dashboard'));
+                    }
+                    else {
+                        return redirect(route('admin_home'));
+                    }
+                } else {
+                    return redirect(route('admin_home'));
+                }
+            }
+        }
+        
+    }
 }

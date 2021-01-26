@@ -8,96 +8,16 @@
     <br>
 </section>
 <section class="content">
-    <div class="box box-primary box-import" style="display: none;">
-        <div class="box-body">
-            <div class="row">
-                <div class="form">
-                    <labe>Arquivo de úsuarios:</labe>
-                    <div class="file-input file-input-new">
-                        <div class="file-preview ">
-                            <div class="close fileinput-remove">×</div>
-                            <div class="file-drop-disabled">
-                                <div class="file-preview-thumbnails">
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="file-preview-status text-center text-success"></div>
-                                <div class="kv-fileinput-error file-error-message" style="display: none;"></div>
-                            </div>
-                        </div>
-                        <div class="kv-upload-progress hide">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-success progress-bar-striped active"
-                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                    style="width:0%;">
-                                    0%
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group file-caption-main">
-                            <div tabindex="500" class="form-control file-caption  kv-fileinput-caption">
-                                <div class="file-caption-name"></div>
-                            </div>
-
-                            <div class="input-group-btn">
-                                <button type="button" tabindex="500" title="Clear selected files"
-                                    class="btn btn-default fileinput-remove fileinput-remove-button"><i
-                                        class="glyphicon glyphicon-trash"></i> <span
-                                        class="hidden-xs">Remove</span></button>
-                                <button type="button" tabindex="500" title="Abort ongoing upload"
-                                    class="btn btn-default hide fileinput-cancel fileinput-cancel-button"><i
-                                        class="glyphicon glyphicon-ban-circle"></i> <span
-                                        class="hidden-xs">Cancel</span></button>
-
-                                <div tabindex="500" class="btn btn-primary btn-file"><i
-                                        class="glyphicon glyphicon-folder-open"></i>&nbsp; <span
-                                        class="hidden-xs">Browse …</span><input id="inputCSV" data-show-upload="false"
-                                        data-show-caption="true" type="file" class=""></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="kvFileinputModal" class="file-zoom-dialog modal fade" tabindex="-1"
-                        aria-labelledby="kvFileinputModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div class="kv-zoom-actions pull-right"><button type="button"
-                                            class="btn btn-default btn-header-toggle btn-toggleheader"
-                                            title="Toggle header" data-toggle="button" aria-pressed="false"
-                                            autocomplete="off"><i
-                                                class="glyphicon glyphicon-resize-vertical"></i></button><button
-                                            type="button" class="btn btn-default btn-fullscreen"
-                                            title="Toggle full screen" data-toggle="button" aria-pressed="false"
-                                            autocomplete="off"><i
-                                                class="glyphicon glyphicon-fullscreen"></i></button><button
-                                            type="button" class="btn btn-default btn-borderless"
-                                            title="Toggle borderless mode" data-toggle="button" aria-pressed="false"
-                                            autocomplete="off"><i
-                                                class="glyphicon glyphicon-resize-full"></i></button><button
-                                            type="button" class="btn btn-default btn-close"
-                                            title="Close detailed preview" data-dismiss="modal" aria-hidden="true"><i
-                                                class="glyphicon glyphicon-remove"></i></button></div>
-                                    <h3 class="modal-title">Detailed Preview <small><span
-                                                class="kv-zoom-title"></span></small></h3>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="floating-buttons"></div>
-                                    <div class="kv-zoom-body file-zoom-content"></div>
-                                    <button type="button" class="btn btn-navigate btn-prev"
-                                        title="View previous file"><i
-                                            class="glyphicon glyphicon-triangle-left"></i></button> <button
-                                        type="button" class="btn btn-navigate btn-next" title="View next file"><i
-                                            class="glyphicon glyphicon-triangle-right"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <form action="{{ url('/userfile_upload') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div>
+            <div class="">
+                <label for="user_list">Upload CSV file</label>
+                <input type="file" id="user_list" name="user_list" accept=".csv">
             </div>
+            <input type="submit" class="btn btn-primary" value="submit">
         </div>
-        <div class="box-footer">
-            <button id="continuar" class="btn btn-primary pull-left">Continuar</button>
-        </div>
-    </div>
+    </form>
     <h4>Usuários</h4>
     <div class="box">
         <div class="box-body">

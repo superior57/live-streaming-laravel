@@ -52,6 +52,19 @@
     </div>
     <!-- ./wrapper -->
 
+    <div class="modal fade in" id="modal_logout" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"
+        style="display: none; padding-right: 17px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader">
+                    <h4 class="modal-title" id="modalLabel">Someone logged in other device, you can not contine.</h4>
+                </div>
+                <div class="modal-footer" id="modalFooter"><button type="button" class="btn btn-default"
+                        data-dismiss="modal" id="fechar" onclick="location.reload();">Close</button></div>
+            </div>
+        </div>
+    </div>
+
     <!-- jQuery 3 -->
     <!-- <script src="{{ asset('admin/js/jquery.min.js') }}"></script> -->
     <!-- Bootstrap 3.3.7 -->
@@ -61,9 +74,14 @@
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 
     <script>
-    $.ajaxSetup({
+    $.ajaxSetup({ 
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(document).ajaxComplete(function(res, data, d) {
+        if(data.status == 500) {
+            $('#modal_logout').fadeIn();
         }
     });
     </script>

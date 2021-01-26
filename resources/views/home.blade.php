@@ -247,11 +247,9 @@
 <script>
     responsivePlayer();
     var msgLocker = 0;
-
     function setLocker(value) {
         msgLocker = value;
     }
-
     function getLocker() {
         return msgLocker;
     }
@@ -307,6 +305,12 @@
 
     $(document).ready(() => {
         displayApprovedMessage();
+        $(wrap_message).scrollTop(wrap_message.scrollHeight);
     })
+
+    let displaymessage = setInterval(() => {
+        displayApprovedMessage();
+        $(wrap_message).scrollTop(wrap_message.scrollHeight);
+    }, 3000);
 </script>
 @endpush

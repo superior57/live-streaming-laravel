@@ -117,6 +117,7 @@ form label {
                 <div class="col-xs-12 col-md-8 col-xl-10 col-xl-offset-1 col-md-offset-2">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
+                        <input type="hidden" name="usertype" value="client">
                         <div class="row mb-2">
                             <div class=" col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="E-mail" required autocomplete="email" autofocus>
