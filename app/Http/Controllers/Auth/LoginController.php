@@ -64,13 +64,13 @@ class LoginController extends Controller
         $usertype = $request->input('usertype');
         $credentials = $request->only('email', 'password');
         
-        if($usertype === "client") {
-            if($this->verifyCSVUser($credentials) != false) {
-                $user = $this->verifyCSVUser($credentials);
-                // Auth::login($user['email'], TRUE);
-                return redirect('/home');
-            } else return back()->with('error', "No matches records");
-        } else {
+        // if($usertype === "client") {
+        //     if($this->verifyCSVUser($credentials) != false) {
+        //         $user = $this->verifyCSVUser($credentials);
+        //         // Auth::login($user['email'], TRUE);
+        //         return redirect('/home');
+        //     } else return back()->with('error', "No matches records");
+        // } else {
             if (Auth::attempt($credentials)) {
                 // Authentication passed...
                 if (auth()->check()) {
@@ -80,6 +80,9 @@ class LoginController extends Controller
                         $user->save();                        
                         return redirect(route('dashboard'));
                     }
+                    else if(auth()->user()->UR_CODE == 2) {
+                        return redirect('/home');
+                    }
                     else {
                         return redirect(route('admin_home'));
                     }
@@ -87,7 +90,7 @@ class LoginController extends Controller
                     return redirect(route('admin_home'));
                 }
             }
-        }
+        // }
         
     }
 }
