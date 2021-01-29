@@ -103,9 +103,15 @@ function displayUpdateSession() {
         } else {
             $('#login_bg').attr('src', sessions.login_bg);
         }
-        $('#login_logo').attr('src', sessions.login_logo);
-        $('#home_logo').attr('src', sessions.home_logo);
-        $('#admin_logo').attr('src', sessions.home_logo);        
+        if($('#login_logo').attr('src') != sessions.login_logo) {
+            $('#login_logo').attr('src', sessions.login_logo);
+        }
+        if($('#home_logo').attr('src') != sessions.home_logo) {
+            $('#home_logo').attr('src', sessions.home_logo);
+        }        
+        if($('#admin_logo').attr('src') != sessions.home_logo) {
+            $('#admin_logo').attr('src', sessions.home_logo);  
+        }      
         if($('#live_video').attr('src') != sessions.live_url) {
             $('#live_video').attr('src', sessions.live_url);
         }
