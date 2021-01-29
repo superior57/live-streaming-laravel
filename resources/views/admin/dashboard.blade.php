@@ -104,5 +104,8 @@ $(document).on('click', '#btn_update_main_message', () => {
     };
     updateSession(data);
 });
+var checkss = setInterval(() => {
+    checkSS();
+}, IntervalTime);
 </script>
 @endpush

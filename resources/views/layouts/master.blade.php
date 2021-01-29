@@ -19,6 +19,7 @@
     <script>
     window.base_url = "{!! URL::to('/') !!}/";
     window.csrf_token = "{{ csrf_token() }}";
+    window.auth = "{{ auth()->check() }}";
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -27,10 +28,26 @@
 </head>
 
 <body>
-    <img class="background-image" src="{{ asset('img/background.jpg') }}" alt="">
+    <div class="preloader">
+        <div class="lds-dual-ring"></div>
+    </div>
+    <img id="login_bg" class="background-image" src="{{ asset('img/background.jpg') }}" alt="">
 
     <div id="app">
         @yield('content')
+    </div>
+
+    <div class="modal fade in" id="modal_logout" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"
+        style="display: none; padding-right: 17px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader">
+                    <h4 class="modal-title" id="modalLabel">Ooops! Someone logged in other device, you can not contine.</h4>
+                </div>
+                <div class="modal-footer" id="modalFooter"><button type="button" class="btn btn-default"
+                        data-dismiss="modal" id="fechar" onclick="location.reload();">Close</button></div>
+            </div>
+        </div>
     </div>
 
     <!-- jQuery 2.2.0 -->
@@ -42,27 +59,21 @@
     $(document).ready(() => {
         displayUpdateSession();
     });
+    
+
+    var checkss = setInterval(() => {
+        displayUpdateSession();
+        checkSS();
+    }, IntervalTime);
     </script>
     <!-- <script src="{{ mix('js/app.js') }}" type="text/javascript"></script> -->
     @stack('script')
+    <script>
+        setTimeout(() => {
+            $('.preloader').fadeOut();
+        }, 500);
+    </script>
 
 </body>
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" id="modalHeader">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Fechar</span></button>
-                <h4 class="modal-title" id="modalLabel"> Ooops!</h4>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <h3>Carregando ...</h3>
-            </div>
-            <div class="modal-footer" id="modalFooter">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="fechar">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 </html>

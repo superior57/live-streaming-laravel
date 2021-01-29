@@ -19,7 +19,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-user"></i>
-              <span class="hidden-xs">Admin</span>
+              <span class="hidden-xs">{!! auth()->user()->name !!}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- Menu Footer-->
@@ -39,9 +39,11 @@
             </ul>
           </li>
           <!-- Control Sidebar Toggle Button -->
+          @if (auth()->user()->UR_CODE == 1)
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
+          </li>              
+          @endif
         </ul>
       </div>
     </nav>

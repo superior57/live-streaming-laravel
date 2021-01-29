@@ -194,7 +194,7 @@
     <div class="container">
         <div class="nav-header">
             <div class="col-xs-12 col-sm-8 col-md-4 col-lg-3 col-sm-offset-2 col-md-offset-0 pre-logo">
-                <img class="img-responsive" src="{{ asset('img/logo.png') }}">
+                <img id="home_logo" class="img-responsive" src="{{ asset('img/logo.png') }}">
             </div>
         </div>
         <div class="row">
@@ -203,8 +203,8 @@
                     <div class="col-xs-12 col-md-8 player">
                         <section id="player_stream">
                             <div id="player">
-                                <iframe id="player"
-                                    src="https://videos.sproutvideo.com/embed/449cd6bc1918e2cbcd/4286bd09fc1bbbb7"
+                                <iframe id="live_video"
+                                    src="{{ $sessions->live_url }}"
                                     allowfullscreen="" frameborder="0" height="100%" width="100%"></iframe>
                             </div>
                         </section>

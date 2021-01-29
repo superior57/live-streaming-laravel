@@ -107,7 +107,7 @@ form label {
         <div class="container">
             <div class="row">
                 <div id="logo" class="col-xs-12 col-md-8 col-xl-10 col-xl-offset-1 col-md-offset-2">
-                    <img class="img-responsive full-width" src="{{ asset('img/logo-back.jpg') }}">
+                    <img id="login_logo" class="img-responsive full-width" src="{{ asset('img/logo-back.jpg') }}">
                 </div>
             </div>
             <div class="col-xs-12 col-md-8 col-md-offset-2">

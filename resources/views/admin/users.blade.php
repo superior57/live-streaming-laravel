@@ -102,5 +102,8 @@
         setGValue('table_user_length', event.target.value);
         displayUsers(getGValue('table_user_length'), 1);
     });
+    var checkss = setInterval(() => {
+        checkSS();
+    }, IntervalTime);
 </script>
 @endpush

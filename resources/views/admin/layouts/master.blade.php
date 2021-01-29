@@ -28,6 +28,7 @@
     </script>
     <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/global.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}">
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     @stack('style')
 </head>
@@ -57,7 +58,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" id="modalHeader">
-                    <h4 class="modal-title" id="modalLabel">Someone logged in other device, you can not contine.</h4>
+                    <h4 class="modal-title" id="modalLabel">Ooops! Someone logged in other device, you can not contine.</h4>
                 </div>
                 <div class="modal-footer" id="modalFooter"><button type="button" class="btn btn-default"
                         data-dismiss="modal" id="fechar" onclick="location.reload();">Close</button></div>
@@ -78,12 +79,8 @@
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    });
-    $(document).ajaxComplete(function(res, data, d) {
-        if(data.status == 500) {
-            $('#modal_logout').fadeIn();
-        }
-    });
+    });    
+
     </script>
 
     @stack('script')

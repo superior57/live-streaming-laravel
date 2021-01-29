@@ -34,24 +34,44 @@ class DashboardController extends Controller
         $sessions = SessionSetting::find(1);
 
         if($redirectTo === "dashboard") {     
-            return view('admin.'.$redirectTo, [
-                'sessions' => $sessions
-            ]);
+            if(auth()->user()->UR_CODE == 1) {
+                return view('admin.'.$redirectTo, [
+                    'sessions' => $sessions
+                ]);
+            } else {
+                return back();
+            }
         } else if($redirectTo === "users"){
-            $user_list = User::where([
-                'UR_CODE' => 2
-            ])->paginate(10);
-            return view('admin.'.$redirectTo, [
-                'sessions' => $sessions,
-                'user_list' => $user_list
-            ]);
-        }       
+           if(auth()->user()->UR_CODE == 1) {
+                $user_list = User::where([
+                    'UR_CODE' => 2
+                ])->paginate(10);
+                return view('admin.'.$redirectTo, [
+                    'sessions' => $sessions,
+                    'user_list' => $user_list
+                ]);
+           } else {
+                return back();
+           }
+        } else if ($redirectTo === "settings") {            
+            if(auth()->user()->UR_CODE == 3) {
+                return view('admin.setting', [
+                    'sessions' => $sessions
+                ]);
+            } else {
+                return back();
+            }
+        }   
         
     }
 
     public function updateSession(Request $request)
     {
-        $this->destorySessionIfDifferent();
+        if($this->destroySessionIfDifferent()) {
+            return response()->json([
+                'messages' => 'logout'
+            ]);
+        }
         $data = $request->except('_token');
         $return = array(
             'message' => ""
@@ -73,7 +93,11 @@ class DashboardController extends Controller
 
     function getAwaitingMessage($per_page, $page_num)
     {
-        $this->destorySessionIfDifferent();
+        if($this->destroySessionIfDifferent()) {
+            return response()->json([
+                'messages' => 'logout'
+            ]);
+        }
         return Message::where([
             'AWAITING' => 1,
             'is_delete' => 0
@@ -96,7 +120,11 @@ class DashboardController extends Controller
 
     function getDisapprovedMessage($per_page, $page_num)
     {
-        $this->destorySessionIfDifferent();
+        if($this->destroySessionIfDifferent()) {
+            return response()->json([
+                'messages' => 'logout'
+            ]);
+        }
         return Message::where([
             'approved' => 0,
             'AWAITING' => 0,
@@ -106,23 +134,39 @@ class DashboardController extends Controller
 
     public function getMessage(Request $request, $status, $per_page, $page_num)
     {
-        $messages = "";
-        if($status === "awaiting") {
-            $messages = $this->getAwaitingMessage($per_page, $page_num);
-        } else if($status === "approved") {
-            $messages = $this->getApprovedMessage($per_page, $page_num);
-        } else if($status === "disapproved") {
-            $messages = $this->getDisapprovedMessage($per_page, $page_num);
+        try{
+            if($this->destroySessionIfDifferent()) {
+                return response()->json([
+                    'messages' => 'logout'
+                ]);
+            }
+            $messages = "";
+            if($status === "awaiting") {
+                $messages = $this->getAwaitingMessage($per_page, $page_num);
+            } else if($status === "approved") {
+                $messages = $this->getApprovedMessage($per_page, $page_num);
+            } else if($status === "disapproved") {
+                $messages = $this->getDisapprovedMessage($per_page, $page_num);
+            }
+    
+            return response()->json([
+                'messages' => $messages
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'messages' => $e->getMessage()
+            ]);
         }
-
-        return response()->json([
-            'messages' => $messages
-        ]);
     }
 
     public function getUsers(Request $request, $per_page, $page_num)
     {
-        $this->destorySessionIfDifferent();
+        if($this->destroySessionIfDifferent()) {
+            return response()->json([
+                'messages' => 'logout'
+            ]);
+        }
         $user_list = User::where([
             'UR_CODE' => 2,
             'is_delete' => 0
@@ -174,14 +218,14 @@ class DashboardController extends Controller
         ]);
     }
 
-    function destorySessionIfDifferent()
+    function destroySessionIfDifferent()
     {
         $cur_session = \Session::getId();
         $user = User::find(auth()->user()->id);
         $last_session = $user->last_session;
         if($cur_session != $last_session) {
             auth()->logout();
-            return response('Logout', 509);
+            return true;
         }
     }
 
@@ -231,6 +275,63 @@ class DashboardController extends Controller
             dd('123');
             return back()->with('error', $e);
         }
+    }
+
+    public function checkSingleSession(Request $req)
+    {
+        try{
+            if(auth()->user()) {
+                if($this->destroySessionIfDifferent()) {
+                    return response()->json([
+                        'messages' => 'logout'
+                    ]);
+                } else {
+                    return response()->json([
+                        'messages' => 'OK'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'messages' => 'OK'
+                ]);
+            }      
+        } catch (Exception $e) {
+            return response()->json([
+                'messages' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function updateSessionFiles(Request $request)
+    {
+        $file = $request->file();
+        $input = $request->except(['_token']);
+        // dd($file);
+        $sessions = SessionSetting::find(1);
+        if($file) {
+            foreach($file as $key => $f) {      
+                if($f) {
+                    if(file_exists(public_path($sessions->$key)) && $sessions->$key){
+                        unlink(public_path($sessions->$key));
+                    }
+                    $fileName = time().'_'.$f->getClientOriginalName();
+                    $filePath = $f->storeAs('uploads', $fileName, 'public');
+                    $sessions->$key = '/storage/' .$filePath;
+                }      
+            }
+            $sessions->save();
+            return back()->with('success', "Successfully changed sessions");
+        }
+
+        if($input) {
+            foreach($input as $key => $value) {
+                $sessions->$key = $value;
+            }
+            $sessions->save();
+            return back()->with('success', "Successfully changed sessions");
+        }
+        return back()->with('error', "There is no updates");
+        
     }
 
 }

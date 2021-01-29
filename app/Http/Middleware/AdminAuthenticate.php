@@ -19,10 +19,10 @@ class AdminAuthenticate
     {
         session_start();
         if (auth()->check()) {
-            if (auth()->user()->UR_CODE == 1) {
-                $user = User::find(auth()->user()->id);
-                $user->last_session = \Session::getId();
-                $user->save();
+            if (auth()->user()->UR_CODE == 1 || auth()->user()->UR_CODE == 3) {
+                // $user = User::find(auth()->user()->id);
+                // $user->last_session = \Session::getId();
+                // $user->save();
                 return $next($request);
             } else {
                 return redirect(route('admin_home'));

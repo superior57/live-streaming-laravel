@@ -107,7 +107,7 @@ form label {
         <div class="container">
             <div class="nav-header justify-center d-flex mt-10">
                 <div class="col-xs-12 col-sm-8 col-md-4 col-lg-3 justify-center d-flex">
-                    <img class="img-responsive" src="{{ asset('img/logo.png') }}">
+                    <img id="admin_logo" class="img-responsive" src="{{ asset('img/logo.png') }}">
                 </div>
             </div>
             <div class="row">

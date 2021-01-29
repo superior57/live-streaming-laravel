@@ -98,6 +98,17 @@ function displayUpdateSession() {
         $('#main_message').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`);
         $('#btnLogin').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`); 
         
+        if(auth == 1) {
+            $('#login_bg').attr('src', sessions.home_bg);
+        } else {
+            $('#login_bg').attr('src', sessions.login_bg);
+        }
+        $('#login_logo').attr('src', sessions.login_logo);
+        $('#home_logo').attr('src', sessions.home_logo);
+        $('#admin_logo').attr('src', sessions.home_logo);        
+        if($('#live_video').attr('src') != sessions.live_url) {
+            $('#live_video').attr('src', sessions.live_url);
+        }
         if(sessions.BUTTON_1 == 1) {
             $('#btn_goto_offsite').attr('style', `background-color: #${sessions.BTN_BACKGROUND_COLOR} !important`); 
             $('#btn_goto_offsite').attr('href', sessions.BUTTON_1_URL); 
@@ -127,137 +138,149 @@ function updateSession(data) {
 
 function messages_awaiting(per_page, page_num) {
     getMessages('awaiting', per_page, page_num, (response) => {
-        let table_body_id = "tbody_awaiting_mesages";
-        let page = response.messages;
-        let data = page.data;
-        // console.log("page", page);
+        try {
+            let table_body_id = "tbody_awaiting_mesages";
+            let page = response.messages;
+            let data = page.data;
+            // console.log("page", page);
 
-        const table = $(`#${table_body_id}`);
-        table.empty();
-        let el_tbody = data.map((d) => {
-            let user = d.user;
-            table.append(`
-                <tr id="tr_awaitingMsg_${d.M_CODE}" role="row" class="odd">
-                    <td>
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${d.MESSAGE}</font>
-                        </font>
-                    </td>
-                    <td>
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${user.name}</font>
-                        </font>
-                    </td>
-                    <td class="sorting_1">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${d.created_at}</font>
-                        </font>
-                    </td>
-                    <td><button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-success approve btn-sm" onclick="messageToApprove(${d.M_CODE})">
-                            To approve
-                        </button>
-                        <button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-danger reprovar btn-sm" onclick="messageToDisapprove(${d.M_CODE})">
-                            Disapprove
-                        </button>
-                        <button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-info responder btn-sm" style="margin-left: 10px" onclick="openModal(${d.M_CODE})">
-                            Answer
-                        </button></td>
-                </tr>
-            `)
-        }); 
+            const table = $(`#${table_body_id}`);
+            table.empty();
+            let el_tbody = data.map((d) => {
+                let user = d.user;
+                table.append(`
+                    <tr id="tr_awaitingMsg_${d.M_CODE}" role="row" class="odd">
+                        <td>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${d.MESSAGE}</font>
+                            </font>
+                        </td>
+                        <td>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${user.name}</font>
+                            </font>
+                        </td>
+                        <td class="sorting_1">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${d.created_at}</font>
+                            </font>
+                        </td>
+                        <td><button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-success approve btn-sm" onclick="messageToApprove(${d.M_CODE})">
+                                To approve
+                            </button>
+                            <button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-danger reprovar btn-sm" onclick="messageToDisapprove(${d.M_CODE})">
+                                Disapprove
+                            </button>
+                            <button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-info responder btn-sm" style="margin-left: 10px" onclick="openModal(${d.M_CODE})">
+                                Answer
+                            </button></td>
+                    </tr>
+                `)
+            }); 
 
-        displayPaginationBar('table_awaiting_paginate', page.current_page, page.last_page, 'awaiting');
-        $('#table_awaiting_info').text(`Showing ${page.current_page} to ${page.per_page} of ${page.total} entries`);
+            displayPaginationBar('table_awaiting_paginate', page.current_page, page.last_page, 'awaiting');
+            $('#table_awaiting_info').text(`Showing ${page.current_page} to ${page.per_page} of ${page.total} entries`);
+        } catch (error) {
+            console.log(error);
+        }
     });
 }
 
 function messages_approved(per_page, page_num) {
     getMessages('approved', per_page, page_num, (response) => {
-        let table_body_id = "tbody_approved_messages";
-        let page = response.messages;
-        let data = page.data;
-        // console.log("page", page);
+        try {
+            let table_body_id = "tbody_approved_messages";
+            let page = response.messages;
+            let data = page.data;
+            // console.log("page", page);
 
-        const table = $(`#${table_body_id}`);
-        table.empty();
-        let el_tbody = data.map((d) => {
-            let user = d.user;
-            table.append(`
-                <tr id="tr_approvedMsg_${d.M_CODE}" role="row" class="odd">
-                    <td>
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${d.MESSAGE}</font>
-                        </font>
-                    </td>
-                    <td>
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${user.name}</font>
-                        </font>
-                    </td>
-                    <td class="sorting_1">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${d.created_at}</font>
-                        </font>
-                    </td>
-                    <td><button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-danger reprovar btn-sm" onclick="messageToDisapprove(${d.M_CODE})">
-                            Disapprove
-                        </button><button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-info responder btn-sm" style="margin-left: 10px" onclick="openModal(${d.M_CODE})">
-                            Answer
-                        </button></td>
-                </tr>
-            `)
-        }); 
-        displayPaginationBar('table_approved_paginate', page.current_page, page.last_page, 'approved');
-        $('#table_approved_info').text(`Showing ${page.current_page} to ${page.per_page} of ${page.total} entries`);
+            const table = $(`#${table_body_id}`);
+            table.empty();
+            let el_tbody = data.map((d) => {
+                let user = d.user;
+                table.append(`
+                    <tr id="tr_approvedMsg_${d.M_CODE}" role="row" class="odd">
+                        <td>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${d.MESSAGE}</font>
+                            </font>
+                        </td>
+                        <td>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${user.name}</font>
+                            </font>
+                        </td>
+                        <td class="sorting_1">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${d.created_at}</font>
+                            </font>
+                        </td>
+                        <td><button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-danger reprovar btn-sm" onclick="messageToDisapprove(${d.M_CODE})">
+                                Disapprove
+                            </button><button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-info responder btn-sm" style="margin-left: 10px" onclick="openModal(${d.M_CODE})">
+                                Answer
+                            </button></td>
+                    </tr>
+                `)
+            }); 
+            displayPaginationBar('table_approved_paginate', page.current_page, page.last_page, 'approved');
+            $('#table_approved_info').text(`Showing ${page.current_page} to ${page.per_page} of ${page.total} entries`);
+        } catch (error) {
+            console.log(error);
+        }
     });
 }
 
 function messages_disapproved(per_page, page_num) {
     getMessages('disapproved', per_page, page_num, (response) => {
-        let table_body_id = "tbody_disapproved_messages";
-        let page = response.messages;
-        let data = page.data;
-        // console.log("page", page);
+        try {
+            let table_body_id = "tbody_disapproved_messages";
+            let page = response.messages;
+            let data = page.data;
+            // console.log("page", page);
 
-        const table = $(`#${table_body_id}`);
-        table.empty();
-        let el_tbody = data.map((d) => {
-            let user = d.user;
-            table.append(`
-                <tr id="tr_disapprovedMsg_${d.M_CODE}" role="row" class="odd">
-                    <td>
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${d.MESSAGE}</font>
-                        </font>
-                    </td>
-                    <td>
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${user.name}</font>
-                        </font>
-                    </td>
-                    <td class="sorting_1">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">${d.created_at}</font>
-                        </font>
-                    </td>
-                    <td><button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-success aprovar btn-sm" onclick="messageToApprove(${d.M_CODE})">
-                            To approve
-                        </button><button type="button" data-id="${d.M_CODE}"
-                            class="btn btn-info responder btn-sm" style="margin-left: 10px" onclick="openModal(${d.M_CODE})">
-                            Answer
-                        </button></td>
-                </tr>
-            `)
-        }); 
+            const table = $(`#${table_body_id}`);
+            table.empty();
+            let el_tbody = data.map((d) => {
+                let user = d.user;
+                table.append(`
+                    <tr id="tr_disapprovedMsg_${d.M_CODE}" role="row" class="odd">
+                        <td>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${d.MESSAGE}</font>
+                            </font>
+                        </td>
+                        <td>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${user.name}</font>
+                            </font>
+                        </td>
+                        <td class="sorting_1">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">${d.created_at}</font>
+                            </font>
+                        </td>
+                        <td><button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-success aprovar btn-sm" onclick="messageToApprove(${d.M_CODE})">
+                                To approve
+                            </button><button type="button" data-id="${d.M_CODE}"
+                                class="btn btn-info responder btn-sm" style="margin-left: 10px" onclick="openModal(${d.M_CODE})">
+                                Answer
+                            </button></td>
+                    </tr>
+                `)
+            }); 
 
-        displayPaginationBar('table_disapproved_paginate', page.current_page, page.last_page, 'disapproved');
-        $('#table_disapproved_info').text(`Showing ${page.current_page} to ${page.per_page} of ${page.total} entries`);
+            displayPaginationBar('table_disapproved_paginate', page.current_page, page.last_page, 'disapproved');
+            $('#table_disapproved_info').text(`Showing ${page.current_page} to ${page.per_page} of ${page.total} entries`);
+        } catch(e) {
+            console.log(e);
+        }
     });
 }
 
@@ -470,38 +493,58 @@ function getMessageDetail(message_id, callback) {
 
 function displayApprovedMessage() {
     getMessages('approved', 0, 0, (response) => {
-        // console.log(response);
-        let wrap_message = document.getElementById('wrap_message');
-        let messages = response.messages;
-        $(wrap_message).empty();
-        
-        messages.map((message) => {
-            let user = message.user;
-            let answer_user = message.answer_user;
-            $(wrap_message).append(`
-                <div class="msg" id="${message.M_CODE}">
-                    <div class="msgTopo"><span class="msgDisse">
-                            <b> ${user.name} </b>
-                            said:
-                        </span><span class="msgTime">${message.created_at}</span></div>
-                    <div class="msgContent">
-                        ${message.MESSAGE}
-                    </div>
+        try{
+            let wrap_message = document.getElementById('wrap_message');
+            let messages = response.messages;
+            $(wrap_message).empty();
+            
+            messages.map((message) => {
+                let user = message.user;
+                let answer_user = message.answer_user;
+                $(wrap_message).append(`
+                    <div class="msg" id="${message.M_CODE}">
+                        <div class="msgTopo"><span class="msgDisse">
+                                <b> ${user.name} </b>
+                                said:
+                            </span><span class="msgTime">${message.created_at}</span></div>
+                        <div class="msgContent">
+                            ${message.MESSAGE}
+                        </div>
 
-                    ${
-                        message.answer_user ? `
-                            <div class="msgAnswer" data-id="cb1V5WKMvXnuBttmlKpW">
-                                <div class="msgTopo"><span class="msgADisse">
-                                        <b>${answer_user.name}</b> said:</span>
-                                    <span class="msgTime">${message.updated_at}</span>
+                        ${
+                            message.answer_user ? `
+                                <div class="msgAnswer" data-id="cb1V5WKMvXnuBttmlKpW">
+                                    <div class="msgTopo"><span class="msgADisse">
+                                            <b>${answer_user.name}</b> said:</span>
+                                        <span class="msgTime">${message.updated_at}</span>
+                                    </div>
+                                    <div class="msgContent">${message.ANSWER}</div>
                                 </div>
-                                <div class="msgContent">${message.ANSWER}</div>
-                            </div>
-                        ` : ``
-                    }
-                </div>
-            `)
-        });
-        $(wrap_message).scrollTop(wrap_message.scrollHeight);
+                            ` : ``
+                        }
+                    </div>
+                `)
+            });
+            $(wrap_message).scrollTop(wrap_message.scrollHeight);
+        } catch(e) {
+            console.log(e);
+        }
+    });
+}
+
+function checkSS() {
+    let url = base_url + `checkss`;
+    $.post({
+        url: url,
+        dataType: "JSON",
+        data: {
+            _token: csrf_token
+        },
+        success: (response) => {    
+            if(response.messages == 'logout') {
+                $('#modal_logout').fadeIn();
+            }       
+        },
+        error: (error) => console.log(error.status, error.statusText)
     });
 }

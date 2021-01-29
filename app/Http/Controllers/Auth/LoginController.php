@@ -74,14 +74,17 @@ class LoginController extends Controller
             if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'is_delete' => 0])) {
                 // Authentication passed...
                 if (auth()->check()) {
-                    if (auth()->user()->UR_CODE == 1) {
-                        $user = User::find(auth()->user()->id);
-                        $user->last_session = \Session::getId();
-                        $user->save();                        
+                    $user = User::find(auth()->user()->id);
+                    $user->last_session = \Session::getId();
+                    $user->save();
+                    if (auth()->user()->UR_CODE == 1) {                                             
                         return redirect(route('dashboard'));
                     }
                     else if(auth()->user()->UR_CODE == 2) {
                         return redirect('/home');
+                    } 
+                    else if (auth()->user()->UR_CODE == 3) {
+                        return redirect('/settings');
                     }
                     else {
                         return redirect(route('admin_home'));

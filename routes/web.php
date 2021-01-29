@@ -41,11 +41,13 @@ Route::get('/admin_home', function() {
 Route::middleware(['auth.admin'])->group(function() {
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
     Route::get('/users', 'Admin\DashboardController@index');
+    Route::get('/settings', 'Admin\DashboardController@index');
 });
 
 // session...
 Route::post('/update_session', 'Admin\DashboardController@updateSession');
 Route::get('/get_session', 'Admin\DashboardController@getSession');
+Route::post('/update_session_files', 'Admin\DashboardController@updateSessionFiles');
 
 // message...
 Route::post('/send_message', 'HomeController@sendMessage');
@@ -56,5 +58,6 @@ Route::post('/message_answer/{message_id}', 'Admin\DashboardController@messageAn
 Route::get('/get_message/{status}/{per_page}/{page_num}', 'Admin\DashboardController@getMessage');
 Route::get('/get_users/{per_page}/{page_num}', 'Admin\DashboardController@getUsers');
 Route::get('get_message_detail/{message_id}', 'Admin\DashboardController@getMessageDetail');
+Route::post('/checkss', 'Admin\DashboardController@checkSingleSession');
 
 Route::post('userfile_upload', 'Admin\DashboardController@uploadUserList');
